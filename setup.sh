@@ -39,6 +39,7 @@ sudo apt install -y unzip
 sudo apt install -y cubicsdr
 sudo apt install -y gnuradio gr-osmosdr gr-rds
 sudo apt install -y dvb-tools dvbsnoop w-scan
+pip3 install guizero
 
 mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
 
@@ -54,11 +55,12 @@ sed -i '/+= lime/ s/^#*/#/' qt-dab.pro
 sed -i '/+= airspy/ s/^#*/#/' qt-dab.pro
 sed -i '/+= hackrf/ s/^#*/#/' qt-dab.pro
 sed -i '/+= soapy/ s/^#*/#/' qt-dab.pro
-#./script-for-debian
+./script-for-debian
 
 mojecho " Zakljucena instalacija Qt-DAB." " Instaliram DVBinspector."
 
 # --------------------- DVBinspector ---------------------
+cd ..
 wget "http://www.digitalekabeltelevisie.nl/dvb_inspector/img/DVBinspector-1.12.0-dist.zip"
 unzip -q DVBinspector-1.12.0-dist.zip
 
@@ -66,15 +68,13 @@ mojecho " Zakljucena instalacija DVBinspector." " Dodajam skripto zagon.py v sta
 
 # dodaj zagon v startup
 vsebina="[Desktop Entry]
-#Type=Application
-#Name=zagon
-#Exec=/usr/bin/python3 /home/pi/zagon/zagon.py"
+Type=Application
+Name=zagon
+Exec=/usr/bin/python3 /home/pi/MMAnalizator/zagon.py"
 mkdir -p /home/pi/.config/autostart/
 echo "$vsebina" > /home/pi/.config/autostart/zagon.desktop
 
 mojecho " Programi so pripravljeni na uporabo." " Raspberry Pi se mora sedaj na novo zagnati!"
-
-read -p "Za ponovni zagon kilkni katerikoli gumb." x
-
+read -p "Za ponovni zagon kilkni katerikoli gumb. (Za izhod pa Ctrl+C)" x
 sudo reboot
 #exit 0

@@ -17,7 +17,7 @@ def fmRadio():
 	subprocess.call(cmd, stdout=subprocess.PIPE)
 
 def dab():
-	cmd = ['/home/pi/MMAnalizator/qt-dab/linux-bin/qt-dab']
+	cmd = ['/home/pi/MMAnalizator/qt-dab*/linux-bin/qt-dab']
 	subprocess.call(cmd, stdout=subprocess.PIPE)
 
 def dvbtSignal():
