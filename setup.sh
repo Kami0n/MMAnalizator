@@ -15,8 +15,9 @@ get_latest_release() {
 sudo apt-get update -y
 
 sudo apt install -y unzip
+sudo apt install -y cubicsdr
 sudo apt install -y gnuradio gr-osmosdr gr-rds
-sudo apt install -y dvb-tools dvbsnoop
+sudo apt install -y dvb-tools dvbsnoop w-scan
 
 #chmod +x *.sh
 #chmod +x *.py
