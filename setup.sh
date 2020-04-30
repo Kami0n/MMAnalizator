@@ -34,11 +34,7 @@ chmod +x *.py
 mojecho " Zakljucek zacetnih nastavitev." " Zacetek instalacije komponent z apt install."
 
 sudo apt-get update -y
-
-sudo apt install -y unzip
-sudo apt install -y cubicsdr
-sudo apt install -y gnuradio gr-osmosdr gr-rds
-sudo apt install -y dvb-tools dvbsnoop w-scan
+sudo apt install -y unzip cubicsdr gnuradio gr-osmosdr gr-rds dvb-tools dvbsnoop w-scan
 pip3 install guizero
 
 mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
@@ -46,7 +42,7 @@ mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
 # --------------------- Qt-DAB ---------------------
 verzijaDAB=$(get_latest_release "JvanKatwijk/qt-dab")
 echo "Zadnja verzija Qt-DAB: $verzijaDAB"
-wget "https://github.com/JvanKatwijk/qt-dab/archive/$verzijaDAB.tar.gz"
+wget -O "$verzijaDAB.tar.gz" "https://github.com/JvanKatwijk/qt-dab/archive/$verzijaDAB.tar.gz"
 tar -xf "$verzijaDAB.tar.gz"
 cd "qt-dab-$verzijaDAB"
 sed -i '/+= sdrplay-v2/ s/^#*/#/' qt-dab.pro
@@ -55,13 +51,17 @@ sed -i '/+= lime/ s/^#*/#/' qt-dab.pro
 sed -i '/+= airspy/ s/^#*/#/' qt-dab.pro
 sed -i '/+= hackrf/ s/^#*/#/' qt-dab.pro
 sed -i '/+= soapy/ s/^#*/#/' qt-dab.pro
-./script-for-debian
+#./script-for-debian
+
+cd ..
+#zapisi pot do zagona v startup.py
+sed -i "20i\	cmd = ['/home/pi/MMAnalizator/qt-dab-$verzijaDAB/linux-bin/qt-dab-$verzijaDAB']" zagon.py
 
 mojecho " Zakljucena instalacija Qt-DAB." " Instaliram DVBinspector."
 
 # --------------------- DVBinspector ---------------------
-cd ..
-wget "http://www.digitalekabeltelevisie.nl/dvb_inspector/img/DVBinspector-1.12.0-dist.zip"
+
+wget -O "DVBinspector-1.12.0-dist.zip" "http://www.digitalekabeltelevisie.nl/dvb_inspector/img/DVBinspector-1.12.0-dist.zip"
 unzip -q DVBinspector-1.12.0-dist.zip
 
 mojecho " Zakljucena instalacija DVBinspector." " Dodajam skripto zagon.py v startup."
