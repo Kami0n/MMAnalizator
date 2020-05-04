@@ -42,6 +42,7 @@ mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
 # --------------------- Qt-DAB ---------------------
 verzijaDAB=$(get_latest_release "JvanKatwijk/qt-dab")
 echo "Zadnja verzija Qt-DAB: $verzijaDAB"
+echo ""
 wget -O "$verzijaDAB.tar.gz" "https://github.com/JvanKatwijk/qt-dab/archive/$verzijaDAB.tar.gz"
 tar -xf "$verzijaDAB.tar.gz"
 cd "qt-dab-$verzijaDAB"
@@ -51,11 +52,15 @@ sed -i '/+= lime/ s/^#*/#/' qt-dab.pro
 sed -i '/+= airspy/ s/^#*/#/' qt-dab.pro
 sed -i '/+= hackrf/ s/^#*/#/' qt-dab.pro
 sed -i '/+= soapy/ s/^#*/#/' qt-dab.pro
-#./script-for-debian
+./script-for-debian
 
+#/home/pi/MMAnalizator/qt-dab/linux-bin/qt-dab
 cd ..
+mv "qt-dab-$verzijaDAB" "qt-dab"
+mv "qt-dab/linux-bin/qt-dab-$verzijaDAB" "qt-dab/linux-bin/qt-dab"
+
 #zapisi pot do zagona v startup.py
-sed -i "20i\	cmd = ['/home/pi/MMAnalizator/qt-dab-$verzijaDAB/linux-bin/qt-dab-$verzijaDAB']" zagon.py
+#sed -i "20i\	cmd = ['/home/pi/MMAnalizator/qt-dab-$verzijaDAB/linux-bin/qt-dab-$verzijaDAB']" zagon.py
 
 mojecho " Zakljucena instalacija Qt-DAB." " Instaliram DVBinspector."
 
