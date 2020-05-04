@@ -3,42 +3,48 @@
 from guizero import *
 import subprocess
 from time import sleep
-
-
 #import os
 #print(os.listdir('.'))
+
+import os 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print ("Trenutni direktorij: " + dir_path)
+
 
 def cubicSDR():
 	cmd = ['CubicSDR']
 	subprocess.call(cmd, stdout=subprocess.PIPE)
 
 def fmRadio():
-	cmd = ['/home/pi/MMAnalizator/FMsprejemnikRDS.py']
+	cmd = [dir_path+'/FMsprejemnikRDS.py']
 	subprocess.call(cmd, stdout=subprocess.PIPE)
 
 def dab():
-	cmd = ['/home/pi/MMAnalizator/qt-dab/linux-bin/qt-dab']
+	cmd = [dir_path+'/qt-dab/linux-bin/qt-dab']
 	subprocess.call(cmd, stdout=subprocess.PIPE)
 
 def dvbtSignal():
-	cmd = ['lxterminal', '-e', 'dvb-fe-tool', '--femon']
+	cmd = ['lxterminal', '--working-directory='+dir_path+'/', '-e', 'dvb-fe-tool', '--femon']
 	proces = subprocess.call(cmd, stdout=subprocess.PIPE)
 	app.display()
 
 def dvbtScan():
-	cmd = ['lxterminal', '-e', 'w_scan']
+	cmd = ['lxterminal', '--working-directory='+dir_path+'/', '-e', 'w_scan', '-ft', '-cSI']  #, '>test.conf'
 	proces = subprocess.call(cmd, stdout=subprocess.PIPE)
 	app.display()
 
 # dvbv5-scan si-Channel -F -o dvb_scan_out.conf -v
+#cmd = ['lxterminal', '-e', 'dvbv5-scan', '/home/pi/MMAnalizator/si-Channel', '-v','-F', '--output=dvb_scan_out.conf']
+
+# dvbv5-scan full-Spectrum -v -o dvb_scan_out.conf 
 def dvbtSeznam():
-	cmd = ['lxterminal', '-e', 'dvbv5-scan', '/home/pi/si-Channel', '-v','-F', '--output=dvb_scan_out.conf']
+	cmd = ['lxterminal', '--working-directory='+dir_path+'/', '-e', 'dvbv5-scan', 'full-Spectrum', '-v','--output=dvb_scan_out.conf']
 	proces = subprocess.call(cmd, stdout=subprocess.PIPE)
 	app.display()
 
 def dvbPosnemiTS():
 	#cmd = ['lxterminal', '-e','/home/pi/MMAnalizator/posnemiTS.sh']
-	cmd = ['lxterminal -e python3 /home/pi/MMAnalizator/posnemi.py']
+	cmd = ['lxterminal --working-directory='+dir_path+'/ -e  python3 posnemi.py']
 	#cmd = ['python3 /home/pi/MMAnalizator/posnemi.py']
 	proces = subprocess.call(cmd, stdout=subprocess.PIPE, shell=True)
 	#proces = subprocess.Popen(cmd, creationflags=CREATE_NEW_CONSOLE)
@@ -52,7 +58,7 @@ def dvbPosnemiTS():
 	app.display()
 
 def dvbtInspector():
-	cmd = ['lxterminal', '-e','/home/pi/MMAnalizator/DVBinspector/dvb.sh']
+	cmd = ['lxterminal', '-e',''+dir_path+'/DVBinspector/dvb.sh']
 	proces = subprocess.call(cmd, stdout=subprocess.PIPE)
 	app.display()
 
@@ -77,8 +83,8 @@ PushButton(app, width=sirina, height=visina, command=cubicSDR, text="CubicSDR" )
 PushButton(app, width=sirina, height=visina, command=fmRadio, text="FM radio" )
 PushButton(app, width=sirina, height=visina, command=dab, text="DAB+" )
 
-PushButton(app, width=sirina, height=visina, command=dvbtScan, text="DVB-T Scan" )
-PushButton(app, width=sirina, height=visina, command=dvbtSeznam, text="DVB-T pridobi programski seznam" )
+#PushButton(app, width=sirina, height=visina, command=dvbtScan, text="DVB-T Scan" )
+PushButton(app, width=sirina, height=visina, command=dvbtSeznam, text="DVB-T full scan" )
 
 PushButton(app, width=sirina, height=visina, command=dvbPosnemiTS, text="Posnemi TS stream" )
 PushButton(app, width=sirina, height=visina, command=dvbtInspector, text="DVBinspector" )

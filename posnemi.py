@@ -65,7 +65,7 @@ casSnemanja = 5 #sekunde
 casSnemanja = input("Vnesi koliko sekund zelis snemati TS [privzeto: "+str(casSnemanja)+"]: ") or casSnemanja
 casSnemanja = int(casSnemanja)
 
-vhodnaDatoteka = "/home/pi/dvb_scan_out.conf"
+vhodnaDatoteka = "/home/pi/MMAnalizator/dvb_scan_out.conf"
 vhodnaDatoteka = input("Vnesi datoteko za izbiro multipleksa [privzeto: "+vhodnaDatoteka+"]: ") or vhodnaDatoteka
 
 multipleks = 'KOPER'

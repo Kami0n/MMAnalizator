@@ -24,9 +24,11 @@ mojecho() {
 mojecho " Zacetek zacetnih nastavitev."
 
 #dodaj LL
-#echo "alias ll='ls -laF'" >> /home/pi/.bashrc
-#sed -i "/^#.* alias ll='ls -l' /s/^#//" /home/pi/.bashrc
 grep -qxF "alias ll='ls -laF'" /home/pi/.bashrc || echo "alias ll='ls -laF'" >> /home/pi/.bashrc
+
+#dont sleep screen
+grep -qxF "xserver-command=X -s 0 dpms" /etc/lightdm/lightdm.conf ||  echo "xserver-command=X -s 0 dpms" | sudo tee -a /etc/lightdm/lightdm.conf
+
 
 chmod +x *.sh
 chmod +x *.py
@@ -42,7 +44,6 @@ mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
 # --------------------- Qt-DAB ---------------------
 verzijaDAB=$(get_latest_release "JvanKatwijk/qt-dab")
 echo "Zadnja verzija Qt-DAB: $verzijaDAB"
-echo ""
 wget -O "$verzijaDAB.tar.gz" "https://github.com/JvanKatwijk/qt-dab/archive/$verzijaDAB.tar.gz"
 tar -xf "$verzijaDAB.tar.gz"
 cd "qt-dab-$verzijaDAB"
@@ -68,6 +69,8 @@ mojecho " Zakljucena instalacija Qt-DAB." " Instaliram DVBinspector."
 
 wget -O "DVBinspector-1.12.0-dist.zip" "http://www.digitalekabeltelevisie.nl/dvb_inspector/img/DVBinspector-1.12.0-dist.zip"
 unzip -q DVBinspector-1.12.0-dist.zip
+
+mv DVBinspector-1.12.0 DVBinspector
 
 mojecho " Zakljucena instalacija DVBinspector." " Dodajam skripto zagon.py v startup."
 
