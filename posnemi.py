@@ -59,6 +59,9 @@ class TestThreading(object):
 		else:
 			return -1 # se snema
 
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print ("Trenutni direktorij: " + dir_path)
 crta = "\n----------------------------------------------\n"
 
 casSnemanja = 5 #sekunde
@@ -72,7 +75,7 @@ multipleks = 'KOPER'
 multipleks = input("Vnesi enega izmed programov v multipleksu, ki bi ga rad posnel [privzeto: "+multipleks+"]: ") or multipleks
 
 imeIzhodne = "posnetPY.ts"
-potIzhodne = "/home/pi/MMAnalizator/posnemi/"
+potIzhodne = dir_path+"/"
 
 imeIzhodne = input("Vnesi ime izhodne datoteke [privzeto: "+imeIzhodne+"]: ") or imeIzhodne
 
