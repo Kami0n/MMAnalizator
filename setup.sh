@@ -36,7 +36,7 @@ chmod +x *.py
 mojecho " Zakljucek zacetnih nastavitev." " Zacetek instalacije komponent z apt install."
 
 sudo apt-get update -y
-sudo apt install -y unzip cubicsdr gnuradio gr-osmosdr gr-rds dvb-tools dvbsnoop w-scan
+sudo apt install -y unzip cubicsdr gnuradio gr-osmosdr gr-rds dvb-tools dvbsnoop w-scan default-jdk
 pip3 install guizero
 
 mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
