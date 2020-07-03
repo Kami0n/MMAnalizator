@@ -27,6 +27,9 @@ mojecho " Zacetek zacetnih nastavitev."
 grep -qxF "alias ll='ls -laF'" /home/pi/.bashrc || echo "alias ll='ls -laF'" >> /home/pi/.bashrc
 
 #dont sleep screen
+
+
+grep -qxF "[SeatDefaults]" /etc/lightdm/lightdm.conf ||  echo "[SeatDefaults]" | sudo tee -a /etc/lightdm/lightdm.conf
 grep -qxF "xserver-command=X -s 0 dpms" /etc/lightdm/lightdm.conf ||  echo "xserver-command=X -s 0 dpms" | sudo tee -a /etc/lightdm/lightdm.conf
 
 
@@ -36,7 +39,14 @@ chmod +x *.py
 mojecho " Zakljucek zacetnih nastavitev." " Zacetek instalacije komponent z apt install."
 
 sudo apt-get update -y
-sudo apt install -y unzip cubicsdr gnuradio gr-osmosdr gr-rds dvb-tools dvbsnoop w-scan default-jdk
+sudo apt install -y unzip cubicsdr gnuradio gr-osmosdr gr-rds dvb-tools dvbsnoop w-scan default-jdk gqrx-sdr
+
+#install kivy
+#sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev pkg-config libgl1-mesa-dev libgles2-mesa-dev python-setuptools #libgstreamer1.0-dev git-core gstreamer1.0-plugins-{bad,base,good,ugly} xclip xsel libjpeg-dev
+#pip3 install --upgrade pip setuptools
+#pip3 install --upgrade Cython==0.29.10 pillow
+#pip3 install kivy
+
 pip3 install guizero
 
 mojecho " Zakljucena instalacija komponent z apt install." " Instaliram Qt-DAB"
@@ -67,9 +77,12 @@ mojecho " Zakljucena instalacija Qt-DAB." " Instaliram DVBinspector."
 
 # --------------------- DVBinspector ---------------------
 
-wget -O "DVBinspector-1.12.0-dist.zip" "http://www.digitalekabeltelevisie.nl/dvb_inspector/img/DVBinspector-1.12.0-dist.zip"
-unzip -q DVBinspector-1.12.0-dist.zip
+#wget -O "DVBinspector-1.12.0-dist.zip" "http://www.digitalekabeltelevisie.nl/dvb_inspector/img/DVBinspector-1.12.0-dist.zip"
+#unzip -q DVBinspector-1.12.0-dist.zip
+#mv DVBinspector-1.12.0 DVBinspector
 
+wget --output-document=DVBinspector.zip https://sourceforge.net/projects/dvbinspector/files/latest/download
+unzip -q DVBinspector.zip
 mv DVBinspector-1.12.0 DVBinspector
 
 mojecho " Zakljucena instalacija DVBinspector." " Dodajam skripto zagon.py v startup."

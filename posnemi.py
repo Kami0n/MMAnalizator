@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # Imports
-import os, sys, subprocess, threading, time, signal, fcntl
+import os, sys, subprocess, threading, time, signal, fcntl, re
 
 class TestThreading(object):
 	def __init__(self, interval=1):
@@ -49,8 +49,8 @@ class TestThreading(object):
 			
 		#recordProc.terminate()
 		recordProc.terminate()
-		print (recordProc.pid)
-		print ("Proc snemanje killed")
+		#print (recordProc.pid)
+		#print ("Proc snemanje killed")
 		self.dela = False
 	
 	def izhodPodatki(self):
@@ -64,20 +64,32 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print ("Trenutni direktorij: " + dir_path)
 crta = "\n----------------------------------------------\n"
 
-casSnemanja = 5 #sekunde
-casSnemanja = input("Vnesi koliko sekund zelis snemati TS [privzeto: "+str(casSnemanja)+"]: ") or casSnemanja
+casSnemanjaDefault = "5" #sekunde
+casSnemanja = input("Vnesi koliko sekund želiš snemati TS [privzeto: "+str(casSnemanjaDefault)+"]: ") or casSnemanjaDefault
+while((not casSnemanja.isdigit()) or int(casSnemanja) <= 0):
+	print("NAPAKA pri vnosu! Vnesel si [ "+casSnemanja+" ] ki ni pozitivno celo število!")
+	casSnemanja = input("Vnesi koliko sekund želiš snemati TS [privzeto: "+str(casSnemanjaDefault)+"]: ") or casSnemanjaDefault
 casSnemanja = int(casSnemanja)
 
-vhodnaDatoteka = "/home/pi/MMAnalizator/dvb_scan_out.conf"
-vhodnaDatoteka = input("Vnesi datoteko za izbiro multipleksa [privzeto: "+vhodnaDatoteka+"]: ") or vhodnaDatoteka
 
-multipleks = 'KOPER'
-multipleks = input("Vnesi enega izmed programov v multipleksu, ki bi ga rad posnel [privzeto: "+multipleks+"]: ") or multipleks
+vhodnaDatotekaDefault = "/home/pi/MMAnalizator/dvb_scan_out.conf"
+vhodnaDatoteka = input("Vnesi datoteko za izbiro multipleksa [privzeto: "+vhodnaDatotekaDefault+"]: ") or vhodnaDatotekaDefault
 
-imeIzhodne = "posnetPY.ts"
+f = open(vhodnaDatoteka, "r")
+celotenFile = f.read()
+samoProgrami = re.findall('\[(.*?)\]',celotenFile);
+
+multipleksDefault = 'KOPER'
+multipleks = input("Vnesi enega izmed programov v multipleksu, ki bi ga rad posnel [privzeto: "+multipleksDefault+"]: ") or multipleksDefault
+while(multipleks not in samoProgrami):
+	print("NAPAKA pri vnosu! Vnesel si program [ "+multipleks+" ] ki ne obstaja v seznamu programov")
+	multipleks = input("Vnesi enega izmed programov v multipleksu, ki bi ga rad posnel [privzeto: "+multipleksDefault+"]: ") or multipleksDefault
+
+
+imeIzhodneDefault = "posnetPY.ts"
 potIzhodne = dir_path+"/"
 
-imeIzhodne = input("Vnesi ime izhodne datoteke [privzeto: "+imeIzhodne+"]: ") or imeIzhodne
+imeIzhodne = input("Vnesi ime izhodne datoteke [privzeto: "+imeIzhodneDefault+"]: ") or imeIzhodneDefault
 
 celotnaPot = potIzhodne+imeIzhodne
 
@@ -108,8 +120,8 @@ def tuneFunction():
 			if rezultatSnemanja != -1: #ce je rezultatsnemanja razlicen od -1 se je dvbsnoop ustavil, zakaj izves iz return kode
 				tuneProc.kill()
 				tuneProc.terminate()
-				print (tuneProc.pid)
-				print ("Proc tune killed")
+				#print (tuneProc.pid)
+				#print ("Proc tune killed")
 	return rezultatSnemanja
 
 rezultat = tuneFunction()
