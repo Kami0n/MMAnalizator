@@ -6,7 +6,7 @@ Installation procedure:
 
 1. Download latest release with:
 ```
-wget https://github.com/Kami0n/MMAnalizator/releases/download/v0.5.0/MMAnalizator.tar.gz
+wget https://github.com/Kami0n/MMAnalizator/releases/download/v0.6.0/MMAnalizator.tar.gz
 ```
 
 2. Extract downloaded file:
